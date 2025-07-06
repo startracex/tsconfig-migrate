@@ -1,0 +1,36 @@
+{
+  "name": "tsconfig-migrate",
+  "version": "0.0.0",
+  "description": "tsconfig migration",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.12.9",
+    "oxc-transform": "^0.75.1",
+    "typescript": "^5.8.3"
+  },
+  "exports": {
+    "./swc.js": "./swc.js",
+    "./oxc.js": "./oxc.js",
+    "./loose-types.js": {
+      "types": "./loose-types.d.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "**/*.{js,d.ts}+(|.map)",
+    "src"
+  ],
+  "keywords": [
+    "tsconfig"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/startracex/tsconfig-migrate.git"
+  },
+  "author": "startracex",
+  "license": "MIT",
+  "packageManager": "pnpm@10.12.4"
+}
