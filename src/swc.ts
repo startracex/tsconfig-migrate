@@ -84,6 +84,7 @@ export const migrateOptions = ({
       },
       experimental: {
         emitIsolatedDts: !!declaration,
+        keepImportAssertions: true,
       },
     },
     sourceMaps: inlineSourceMap ? "inline" : sourceMap || false,
