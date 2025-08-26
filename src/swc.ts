@@ -93,3 +93,5 @@ export const migrateOptions = ({
     isModule: module !== "none",
   };
 };
+
+export default migrateOptions;

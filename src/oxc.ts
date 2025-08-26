@@ -48,7 +48,7 @@ const normalizeJSX = ({
   };
 };
 
-const migrate = ({
+export const migrateOptions = ({
   target,
   declaration,
   declarationMap,
@@ -86,4 +86,4 @@ const migrate = ({
   };
 };
 
-export default migrate;
+export default migrateOptions;
