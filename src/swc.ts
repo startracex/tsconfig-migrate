@@ -12,9 +12,9 @@ const normalizeJSX = ({
   }
   return {
     runtime: jsx === "react" ? "classic" : "automatic",
-    importSource: jsxImportSource,
-    pragmaFrag: jsxFragmentFactory,
-    pragma: jsxFactory,
+    importSource: jsxImportSource ?? undefined,
+    pragmaFrag: jsxFragmentFactory ?? undefined,
+    pragma: jsxFactory ?? undefined,
     development: jsx === "react-jsxdev",
   };
 };
@@ -63,26 +63,31 @@ export const migrateOptions = ({
     },
     jsc: {
       target: target?.toLowerCase() as JscTarget,
-      externalHelpers: importHelpers,
+      externalHelpers: !!importHelpers,
       parser: {
         syntax: "typescript",
         tsx: !!jsx,
         decorators: emitDecorator,
       },
       transform: {
-        decoratorMetadata: emitDecorator && experimentalDecorators && emitDecoratorMetadata,
+        decoratorMetadata: !!(emitDecorator && experimentalDecorators && emitDecoratorMetadata),
         decoratorVersion: emitDecorator ? (experimentalDecorators ? "2021-12" : "2022-03") : undefined,
         legacyDecorator: emitDecorator ? experimentalDecorators : undefined,
-        useDefineForClassFields,
-        verbatimModuleSyntax: verbatimModuleSyntax,
-        react: normalizeJSX({ jsx, jsxFactory, jsxFragmentFactory, jsxImportSource }),
+        useDefineForClassFields: !!useDefineForClassFields,
+        verbatimModuleSyntax: !!verbatimModuleSyntax,
+        react: normalizeJSX({
+          jsx,
+          jsxFactory,
+          jsxFragmentFactory,
+          jsxImportSource,
+        }),
       },
       experimental: {
-        emitIsolatedDts: declaration,
+        emitIsolatedDts: !!declaration,
       },
     },
-    sourceMaps: inlineSourceMap ? "inline" : sourceMap,
-    sourceRoot: sourceRoot,
+    sourceMaps: inlineSourceMap ? "inline" : sourceMap || false,
+    sourceRoot: sourceRoot ?? undefined,
     inlineSourcesContent: inlineSources ?? true,
     isModule: module !== "none",
   };

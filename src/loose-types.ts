@@ -10,12 +10,12 @@ export type CompilerOptions = NullableOptions<{
   esModuleInterop: boolean;
   verbatimModuleSyntax: boolean;
   importHelpers: boolean;
-  
-  jsx: string; // "react" | "react-jsx" | "react-jsxdev" | "react-native" | "preserve"
+
+  jsx: string;
   jsxFactory: string;
   jsxFragmentFactory: string;
   jsxImportSource: string;
-  
+
   declaration: boolean;
   declarationMap: boolean;
   stripInternal: boolean;

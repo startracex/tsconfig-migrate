@@ -5,11 +5,11 @@ const normalizeDeclaration = ({
   declaration,
   declarationMap,
   stripInternal,
-}: Pick<CompilerOptions, "declaration" | "declarationMap" | "stripInternal">): IsolatedDeclarationsOptions => {
+}: Pick<CompilerOptions, "declaration" | "declarationMap" | "stripInternal">): IsolatedDeclarationsOptions | undefined => {
   if (declaration) {
     return {
-      sourcemap: declarationMap,
-      stripInternal,
+      sourcemap: !!declarationMap,
+      stripInternal: !!stripInternal,
     };
   }
 };
@@ -22,7 +22,7 @@ const normalizeDecorator = ({
   if (emitDecorator) {
     return {
       legacy: experimentalDecorators,
-      emitDecoratorMetadata: experimentalDecorators && emitDecoratorMetadata,
+      emitDecoratorMetadata: !!(experimentalDecorators && emitDecoratorMetadata),
     };
   }
 };
@@ -41,9 +41,9 @@ const normalizeJSX = ({
   }
   return {
     runtime: jsx === "react" ? "classic" : "automatic",
-    importSource: jsxImportSource,
-    pragmaFrag: jsxFragmentFactory,
-    pragma: jsxFactory,
+    importSource: jsxImportSource ?? undefined,
+    pragmaFrag: jsxFragmentFactory ?? undefined,
+    pragma: jsxFactory ?? undefined,
     development: jsx === "react-jsxdev",
   };
 };
@@ -64,17 +64,24 @@ const migrate = ({
 }: CompilerOptions): TransformOptions => {
   return {
     target: target?.toLowerCase(),
-    sourcemap: sourceMap,
+    sourcemap: !!sourceMap,
     sourceType: "module",
     assumptions: {
       setPublicClassFields: !useDefineForClassFields,
     },
     jsx: normalizeJSX({ jsx, jsxFactory, jsxFragmentFactory, jsxImportSource }),
-    decorator: normalizeDecorator({ experimentalDecorators, emitDecoratorMetadata }),
+    decorator: normalizeDecorator({
+      experimentalDecorators,
+      emitDecoratorMetadata,
+    }),
     typescript: {
       removeClassFieldsWithoutInitializer: !useDefineForClassFields,
       rewriteImportExtensions: true,
-      declaration: normalizeDeclaration({ declaration, declarationMap, stripInternal }),
+      declaration: normalizeDeclaration({
+        declaration,
+        declarationMap,
+        stripInternal,
+      }),
     },
   };
 };
