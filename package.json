@@ -7,9 +7,9 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@swc/core": "^1.12.9",
-    "oxc-transform": "^0.75.1",
-    "typescript": "^5.8.3"
+    "@swc/core": "^1.13.5",
+    "oxc-transform": "^0.82.3",
+    "typescript": "^5.9.2"
   },
   "exports": {
     "./swc.js": "./swc.js",
