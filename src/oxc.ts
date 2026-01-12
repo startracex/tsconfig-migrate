@@ -66,7 +66,6 @@ export const migrateOptions = ({
   return {
     target: target?.toLowerCase(),
     sourcemap: !!sourceMap,
-    sourceType: "module",
     assumptions: {
       setPublicClassFields: !useDefineForClassFields,
     },

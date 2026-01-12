@@ -88,7 +88,6 @@ export const migrateOptions = ({
     sourceMaps: inlineSourceMap ? "inline" : sourceMap || false,
     sourceRoot: sourceRoot ?? undefined,
     inlineSourcesContent: inlineSources ?? true,
-    isModule: module !== "none",
   };
 };
 
