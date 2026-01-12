@@ -61,6 +61,7 @@ export const migrateOptions = ({
   emitDecoratorMetadata,
   useDefineForClassFields,
   stripInternal,
+  rewriteRelativeImportExtensions
 }: CompilerOptions): TransformOptions => {
   return {
     target: target?.toLowerCase(),
@@ -76,7 +77,7 @@ export const migrateOptions = ({
     }),
     typescript: {
       removeClassFieldsWithoutInitializer: !useDefineForClassFields,
-      rewriteImportExtensions: true,
+      rewriteImportExtensions: !!rewriteRelativeImportExtensions,
       declaration: normalizeDeclaration({
         declaration,
         declarationMap,

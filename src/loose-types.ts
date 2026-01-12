@@ -10,6 +10,7 @@ export type CompilerOptions = NullableOptions<{
   esModuleInterop: boolean;
   verbatimModuleSyntax: boolean;
   importHelpers: boolean;
+  rewriteRelativeImportExtensions: boolean;
 
   jsx: string;
   jsxFactory: string;
