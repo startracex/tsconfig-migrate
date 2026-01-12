@@ -40,18 +40,16 @@ export const migrateOptions = ({
 }: CompilerOptions): Options => {
   let moduleType: ModuleConfig["type"] = "es6";
 
-  switch (module?.toLowerCase()) {
+  const moduleLower = module?.toLowerCase();
+  switch (moduleLower) {
     case "amd":
-      moduleType = "amd";
+    case "commonjs":
+    case "nodenext":
+    case "umd":
+      moduleType = moduleLower;
       break;
     case "system":
       moduleType = "systemjs";
-      break;
-    case "umd":
-      moduleType = "umd";
-      break;
-    case "commonjs":
-      moduleType = "commonjs";
       break;
   }
 
