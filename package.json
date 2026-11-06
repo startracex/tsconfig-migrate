@@ -7,15 +7,16 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@swc/core": "^1.15.8",
-    "oxc-transform": "^0.107.0",
-    "typescript": "^5.9.3"
+    "@swc/core": "^1.16.22",
+    "oxc-transform": "^0.157.0",
+    "typescript": "^7.0.2"
   },
   "exports": {
+    "./shared.js": "./shared.js",
     "./swc.js": "./swc.js",
     "./oxc.js": "./oxc.js",
     "./loose-types.js": {
-      "types": "./loose-types.d.js"
+      "types": "./loose-types.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -32,5 +33,5 @@
   },
   "author": "startracex",
   "license": "MIT",
-  "packageManager": "pnpm@10.28.0"
+  "packageManager": "pnpm@12.16.1"
 }

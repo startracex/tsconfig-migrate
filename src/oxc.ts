@@ -1,5 +1,6 @@
 import type { DecoratorOptions, IsolatedDeclarationsOptions, JsxOptions, TransformOptions } from "oxc-transform";
 import type { CompilerOptions } from "./loose-types.js";
+import { defaultUseDefineForClassFields } from "./shared.js";
 
 const normalizeDeclaration = ({
   declaration,
@@ -17,12 +18,16 @@ const normalizeDeclaration = ({
 const normalizeDecorator = ({
   experimentalDecorators,
   emitDecoratorMetadata,
-}: Pick<CompilerOptions, "experimentalDecorators" | "emitDecoratorMetadata">): DecoratorOptions | undefined => {
+  strictNullChecks,
+}: Pick<CompilerOptions, "experimentalDecorators" | "emitDecoratorMetadata" | "strictNullChecks">): DecoratorOptions | undefined => {
   const emitDecorator = experimentalDecorators !== null && experimentalDecorators !== undefined;
   if (emitDecorator) {
     return {
       legacy: experimentalDecorators,
       emitDecoratorMetadata: !!(experimentalDecorators && emitDecoratorMetadata),
+      ...(strictNullChecks !== null && strictNullChecks !== undefined
+        ? { strictNullChecks }
+        : {}),
     };
   }
 };
@@ -61,21 +66,30 @@ export const migrateOptions = ({
   emitDecoratorMetadata,
   useDefineForClassFields,
   stripInternal,
-  rewriteRelativeImportExtensions
+  rewriteRelativeImportExtensions,
+  verbatimModuleSyntax,
+  strictNullChecks,
 }: CompilerOptions): TransformOptions => {
+  const useDefine =
+    useDefineForClassFields !== null && useDefineForClassFields !== undefined
+      ? useDefineForClassFields
+      : defaultUseDefineForClassFields(target);
   return {
     target: target?.toLowerCase(),
     sourcemap: !!sourceMap,
     assumptions: {
-      setPublicClassFields: !useDefineForClassFields,
+      // setPublicClassFields + removeClassFieldsWithoutInitializer ≈ useDefineForClassFields: false
+      setPublicClassFields: !useDefine,
     },
     jsx: normalizeJSX({ jsx, jsxFactory, jsxFragmentFactory, jsxImportSource }),
     decorator: normalizeDecorator({
       experimentalDecorators,
       emitDecoratorMetadata,
+      strictNullChecks,
     }),
     typescript: {
-      removeClassFieldsWithoutInitializer: !useDefineForClassFields,
+      removeClassFieldsWithoutInitializer: !useDefine,
+      onlyRemoveTypeImports: !!verbatimModuleSyntax,
       rewriteImportExtensions: !!rewriteRelativeImportExtensions,
       declaration: normalizeDeclaration({
         declaration,

@@ -1,0 +1,5 @@
+allowBuilds:
+  "@swc/core": true
+minimumReleaseAgeExclude:
+  - "@swc/core"
+  - "@swc/core-*"

@@ -11,6 +11,7 @@ export type CompilerOptions = NullableOptions<{
   verbatimModuleSyntax: boolean;
   importHelpers: boolean;
   rewriteRelativeImportExtensions: boolean;
+  strictNullChecks: boolean;
 
   jsx: string;
   jsxFactory: string;
